@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>THALIR — Empowering Every Child’s Journey</title>
+  
+  <!-- Typography: Inter for clean healthcare/edtech clarity -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Prototype Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ====================================================================
+       INVESTOR / MENTOR PRESENTATION TOOLBAR
+       Allows pitch judges and reviewers to quickly evaluate screens & viewports
+       ==================================================================== -->
+  <div class="pitch-toolbar">
+    <div class="pitch-brand-badge">
+      <span class="brand-name">THALIR</span>
+      <span class="pitch-badge-tag">Seed-Funding Evaluation Prototype</span>
+    </div>
+
+    <div class="pitch-controls">
+      <!-- Quick Screen Jump (Instant Access for Demo) -->
+      <label for="screen-quick-select" style="font-size: 11px; color: #A7C5B5; font-weight: 500;">Jump to Screen:</label>
+      <select id="screen-quick-select" class="screen-quick-select" onchange="navigateTo(this.value)">
+        <option value="welcome">Screen 1 — Welcome</option>
+        <option value="role">Screen 2 — Choose Your Role</option>
+        <option value="dashboard">Screen 3 — Parent Dashboard (Main)</option>
+        <option value="profile">Screen 4 — Child Profile (Arjun)</option>
+        <option value="progress">Screen 5 — Progress Passport</option>
+        <option value="progress_history">Sub-View — Progress Timeline History</option>
+        <option value="care_passport">Screen 6 — Care Passport</option>
+        <option value="school">Screen 7 — School Connect</option>
+        <option value="appointments">Screen 8 — Care Schedule</option>
+        <option value="professionals">Screen 9 — Find Professionals</option>
+        <option value="communication">Screen 10 — Assistive Communication</option>
+        <option value="awareness">Screen 11 — Early Awareness</option>
+        <option value="resources">Screen 12 — Family Resources</option>
+        <option value="notifications">Screen 13 — Notifications</option>
+        <option value="care_team">Screen 14 — My Care Team</option>
+        <option value="settings">Screen 15 — Settings & Privacy</option>
+      </select>
+
+      <!-- Viewport Mode Switcher -->
+      <div style="display: flex; gap: 4px;">
+        <button id="btn-mode-frame" class="pitch-btn active" onclick="setViewMode('frame')">
+          <span>📱 Phone View</span>
+        </button>
+        <button id="btn-mode-expanded" class="pitch-btn" onclick="setViewMode('expanded')">
+          <span>🖥️ Expanded View</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       PROTOTYPE VIEWPORT CANVAS
+       ==================================================================== -->
+  <main class="prototype-canvas">
+    <div id="device-wrapper" class="device-container mode-frame">
+      <div class="device-viewport">
+        
+        <!-- Status Bar (Phone Mode) -->
+        <div class="phone-status-bar">
+          <span class="status-time">9:41</span>
+          <div class="dynamic-island">
+            <div class="island-camera"></div>
+            <div class="island-sensor"></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4a1 1 0 0 0 1.25 1.25l1.79-.62A8.96 8.96 0 0 0 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+            <span style="font-size: 11px;">100%</span>
+          </div>
+        </div>
+
+        <!-- Sticky App Header -->
+        <header id="app-header-bar" class="app-header" style="display: none;">
+          <!-- Strictly wordmark, NO LOGO -->
+          <div class="app-brand-mark" onclick="navigateTo('dashboard')" style="cursor: pointer;">
+            THALIR
+          </div>
+
+          <div class="header-actions">
+            <!-- Child Switcher Pill -->
+            <button id="header-child-pill" class="child-selector-pill" onclick="navigateTo('profile')">
+              <span class="child-avatar-dot">A</span>
+              <span>Arjun</span>
+            </button>
+
+            <!-- Notifications Bell -->
+            <button class="icon-btn" onclick="navigateTo('notifications')" aria-label="Notifications">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              <span class="notif-badge"></span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Main Screen Dynamic Scroller -->
+        <div id="app-main-content" class="app-screen-scroller">
+          <!-- Content dynamically rendered by js/app.js -->
+        </div>
+
+        <!-- Bottom Navigation Bar (Home | Progress | Care | Connect | Profile) -->
+        <nav id="bottom-nav-bar" class="bottom-nav-bar" style="display: none;">
+          <button id="nav-home" class="nav-item active" onclick="navigateTo('dashboard')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home</span>
+          </button>
+
+          <button id="nav-progress" class="nav-item" onclick="navigateTo('progress')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <span>Progress</span>
+          </button>
+
+          <button id="nav-care" class="nav-item" onclick="navigateTo('care_passport')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
+            <span>Care</span>
+          </button>
+
+          <button id="nav-connect" class="nav-item" onclick="navigateTo('school')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Connect</span>
+          </button>
+
+          <button id="nav-profile" class="nav-item" onclick="navigateTo('profile')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Profile</span>
+          </button>
+        </nav>
+
+        <!-- Home Bar (Phone Mode) -->
+        <div class="phone-home-indicator"></div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ====================================================================
+       INTERACTIVE MODALS & DIALOGS
+       Realistic simulated backend actions
+       ==================================================================== -->
+
+  <!-- Modal: Add Progress Update -->
+  <div id="modal-add-progress" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Progress Update</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-progress')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-slate); margin-bottom: 14px;">
+          Contribute an observation to Arjun’s shared Progress Passport.
+        </p>
+        <div class="form-group">
+          <label class="form-label" for="prog-category">Developmental Domain</label>
+          <select id="prog-category" class="form-select">
+            <option value="Communication">Communication</option>
+            <option value="Social & Emotional">Social & Emotional</option>
+            <option value="Daily Living">Daily Living</option>
+            <option value="Learning & Participation">Learning & Participation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="prog-author">Author / Role</label>
+          <select id="prog-author" class="form-select">
+            <option value="Parent (Ananya)">Parent (Ananya)</option>
+            <option value="Class Teacher (Ms. Kavya)">Class Teacher (Ms. Kavya)</option>
+            <option value="Speech Therapist (Dr. Meera)">Speech Therapist (Dr. Meera)</option>
+            <option value="Occupational Therapist (David Chen)">Occupational Therapist (David Chen)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="prog-observation">Observation Note</label>
+          <textarea id="prog-observation" class="form-textarea" placeholder="e.g. Arjun independently selected the 'WATER' picture card during lunch break..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-add-progress')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="submitAddProgress()">Save Update</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Update Care Passport -->
+  <div id="modal-update-passport" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Update Care Passport</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-update-passport')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-slate); margin-bottom: 14px;">
+          Review and update Arjun’s central care directives.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Communication Preferences</label>
+          <input type="text" class="form-input" value="Prefers visual prompts and simple instructions.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sensory Accommodations</label>
+          <input type="text" class="form-input" value="Provide noise-dampening headphones during assemblies.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Caregiver Handoff Notes</label>
+          <textarea class="form-textarea">Always give a 5-minute visual hourglass prompt before ending preferred play activities.</textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-update-passport')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-update-passport'); showToast('Care Passport updated successfully');">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Share Care Passport (Parent-Controlled Permissions) -->
+  <div id="modal-share-passport" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Care Team Access & Sharing</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-share-passport')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="clinical-disclaimer-box calm-sage" style="margin-top: 0; margin-bottom: 14px;">
+          <p>
+            <strong>Parental Sovereignty:</strong> You control exactly who can view or contribute to each section of Arjun’s care record.
+          </p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- Member 1: Ms. Kavya -->
+          <div style="border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div>
+                <strong style="font-size: 13px;">Ms. Kavya</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">Class Teacher · Greenfield Academy</p>
+              </div>
+              <span class="status-pill blue">Educator</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> School Updates & Classroom Notes
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> Progress Passport & Milestones
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: var(--text-muted);">
+                <input type="checkbox"> Confidential Medical & Clinical Files
+              </label>
+            </div>
+          </div>
+
+          <!-- Member 2: Dr. Meera Krishnan -->
+          <div style="border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div>
+                <strong style="font-size: 13px;">Dr. Meera Krishnan</strong>
+                <p style="font-size: 11px; color: var(--text-muted);">Speech & Language Therapist</p>
+              </div>
+              <span class="status-pill teal">Clinical Lead</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> Therapy Schedule & Clinical Logs
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> Progress Passport & AAC Goals
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" checked> Care Passport (Sensory & Medical Notes)
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-share-passport')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="submitSharePermissions()">Confirm Permissions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Appointment -->
+  <div id="modal-add-appointment" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Schedule Care Session</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-appointment')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="apt-service">Care Service</label>
+          <select id="apt-service" class="form-select">
+            <option value="Speech & Language Therapy">Speech & Language Therapy</option>
+            <option value="Occupational Therapy">Occupational Therapy</option>
+            <option value="Parent–Teacher IEP Review">Parent–Teacher IEP Review</option>
+            <option value="Developmental Pediatric Consultation">Developmental Pediatric Consultation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="apt-prof">Professional / Clinic</label>
+          <select id="apt-prof" class="form-select">
+            <option value="Dr. Meera Krishnan">Dr. Meera Krishnan (CareSteps Centre)</option>
+            <option value="David Chen">David Chen (CareSteps Sensory Gym)</option>
+            <option value="Ms. Kavya (Class Teacher)">Ms. Kavya (Greenfield Academy)</option>
+            <option value="Dr. S. Ranganathan">Dr. S. Ranganathan (Apollo Centre)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="apt-date">Date & Time</label>
+          <input type="text" id="apt-date" class="form-input" placeholder="e.g. Tomorrow · 11:30 AM">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-add-appointment')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="submitAddAppointment()">Schedule Appointment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Message Teacher -->
+  <div id="modal-message-teacher" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Message Ms. Kavya</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-message-teacher')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-slate); margin-bottom: 12px;">
+          Send a direct care note regarding Arjun’s classroom accommodations or morning routines.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" value="Observation regarding today's transition routine">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea id="teacher-message-text" class="form-textarea" placeholder="Hello Ms. Kavya, Arjun was very excited about the library card today..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-message-teacher')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="submitMessageTeacher()">Send Message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Share School Update -->
+  <div id="modal-share-school-update" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Share Home Update with School</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-share-school-update')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-slate); margin-bottom: 12px;">
+          Inform Ms. Kavya and the school inclusion team about recent home adjustments or sleep patterns.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select">
+            <option>Morning Routine & Sleep</option>
+            <option>Sensory Regulation Adjustment</option>
+            <option>AAC Word Milestone</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Brief Note</label>
+          <textarea class="form-textarea" placeholder="Arjun slept soundly and practiced his breakfast checklist smoothly today..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-share-school-update')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-share-school-update'); showToast('Update shared with Greenfield Academy team');">Share with School</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Professional Profile Details -->
+  <div id="modal-pro-profile" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Professional Verification</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-pro-profile')">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-pro-content">
+        <!-- Injected dynamically by openProModal -->
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-pro-profile')">Close</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-pro-profile'); showToast('Inquiry forwarded to clinician office');">Book Consultation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Custom AAC Phrase -->
+  <div id="modal-add-phrase" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Assistive Phrase</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-phrase')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-slate); margin-bottom: 12px;">
+          Create a personalized phrase button for Arjun’s visual communication board.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Button Label (Short)</label>
+          <input type="text" id="new-phrase-label" class="form-input" placeholder="e.g. SQUISHY TOY">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Spoken Sentence</label>
+          <input type="text" id="new-phrase-sentence" class="form-input" placeholder="e.g. May I have my soft sensory toy?">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select">
+            <option>Comfort & Sensory</option>
+            <option>Food & Drink</option>
+            <option>Action & Movement</option>
+            <option>Social Expression</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-add-phrase')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-add-phrase'); showToast('Phrase added to Arjun’s AAC Board');">Add Tile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Create Custom Board -->
+  <div id="modal-custom-board" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Custom Board</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-custom-board')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Board Name</label>
+          <input type="text" class="form-input" placeholder="e.g. School Snack Time / Bedtime Calm">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Context</label>
+          <select class="form-select">
+            <option>Classroom & Recess</option>
+            <option>Home Routines</option>
+            <option>Therapy Clinic</option>
+            <option>Community Outing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grid Layout</label>
+          <select class="form-select">
+            <option>6 Large Buttons (High Contrast)</option>
+            <option>10 Standard Buttons</option>
+            <option>12 Expanded Buttons</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-custom-board')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-custom-board'); showToast('Custom AAC Board created');">Create Board</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Early Awareness Questionnaire (Strictly Self-Reflection & Non-Diagnostic) -->
+  <div id="modal-questionnaire" class="modal-overlay">
+    <div class="modal-window" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Developmental Reflection Tool</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-questionnaire')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="clinical-disclaimer-box" style="margin-top: 0; margin-bottom: 14px;">
+          <p>
+            <strong>Reminder:</strong> This questionnaire is framed ONLY as an awareness and self-reflection tool, not a diagnostic test.
+          </p>
+        </div>
+
+        <form id="quiz-form">
+          <!-- Question 1 -->
+          <div style="margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+            <p style="font-size: 13px; font-weight: 700; color: var(--text-charcoal); margin-bottom: 6px;">
+              1. Expressing Everyday Needs:
+            </p>
+            <p style="font-size: 12px; color: var(--text-slate); margin-bottom: 8px;">
+              When asking for food or assistance, your child most often:
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q1" value="0" checked>
+                <span>Uses multi-word verbal sentences spontaneously</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q1" value="1">
+                <span>Uses single words, gestures, or leads by hand</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q1" value="2">
+                <span>Relies heavily on visual tools or experiences distress when communicating</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Question 2 -->
+          <div style="margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px;">
+            <p style="font-size: 13px; font-weight: 700; color: var(--text-charcoal); margin-bottom: 6px;">
+              2. Acoustic & Sensory Reactivity:
+            </p>
+            <p style="font-size: 12px; color: var(--text-slate); margin-bottom: 8px;">
+              In places with sudden high-volume sounds (school bells, alarms):
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q2" value="0">
+                <span>Adapts without pronounced distress</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q2" value="1" checked>
+                <span>Briefly covers ears or seeks familiar adult reassurance</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q2" value="2">
+                <span>Experiences intense sensory distress or flight response</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Question 3 -->
+          <div style="margin-bottom: 16px;">
+            <p style="font-size: 13px; font-weight: 700; color: var(--text-charcoal); margin-bottom: 6px;">
+              3. Routine Transitions:
+            </p>
+            <p style="font-size: 12px; color: var(--text-slate); margin-bottom: 8px;">
+              When an established plan or routine changes without notice:
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q3" value="0">
+                <span>Transitions comfortably with a quick verbal update</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q3" value="1" checked>
+                <span>Requires visual countdown cards and extra settling time</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="radio" name="q3" value="2">
+                <span>Experiences prolonged behavioral freeze or shutdown</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Dynamic Result Box -->
+          <div id="quiz-result-box" style="display: none; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: var(--radius-md); padding: 12px; margin-top: 10px;">
+            <p style="font-size: 13px; font-weight: 700; color: #166534;">
+              Reflective Summary Generated
+            </p>
+            <p style="font-size: 12px; color: #15803D; margin-top: 4px; line-height: 1.45;">
+              Your observations suggest benefits from proactive visual scaffolding and sensory modulation strategies.
+            </p>
+            <p style="font-size: 11px; font-weight: 700; color: #166534; margin-top: 8px; border-top: 1px dashed #86EFAC; padding-top: 6px;">
+              Your responses are for awareness and do not replace professional evaluation.
+            </p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="resetQuestionnaire()">Close</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="submitQuestionnaire()">Evaluate Reflection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Invite Care Team Member -->
+  <div id="modal-invite-member" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Invite Care Team Member</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-invite-member')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-slate); margin-bottom: 12px;">
+          Bring a professional, educator, or family caregiver into Arjun’s coordinated circle.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" placeholder="e.g. Dr. Priya Raman">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="e.g. priya.raman@clinic.org">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <select class="form-select">
+            <option>Speech & Language Therapist</option>
+            <option>Class Teacher / Special Educator</option>
+            <option>Occupational Therapist</option>
+            <option>Behavioral Support Specialist</option>
+            <option>Secondary Family Caregiver</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Access Level</label>
+          <select class="form-select">
+            <option>Standard Professional (Therapy + Progress + Care Notes)</option>
+            <option>Educator View (School Updates + Classroom Goals)</option>
+            <option>Full Caregiver Access</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-invite-member')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-invite-member'); showToast('Invitation dispatched to team member');">Send Invitation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Child Profile -->
+  <div id="modal-edit-profile" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Child Profile</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-edit-profile')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Child Name</label>
+          <input type="text" class="form-input" value="Arjun">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Age & DOB</label>
+          <input type="text" class="form-input" value="8 years (April 14, 2018)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emergency Phone</label>
+          <input type="text" class="form-input" value="+91 98401 23456">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="thalir-btn thalir-btn-secondary" onclick="closeModal('modal-edit-profile')">Cancel</button>
+        <button class="thalir-btn thalir-btn-primary" onclick="closeModal('modal-edit-profile'); showToast('Profile details updated');">Save Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Feedback Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Prototype Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

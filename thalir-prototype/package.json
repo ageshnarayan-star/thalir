@@ -1,0 +1,27 @@
+﻿{
+  "name": "thalir-prototype",
+  "version": "1.0.0",
+  "description": "THALIR — Empowering Every Child’s Journey. Seed-funding evaluation clickable prototype.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve -l 3000 .",
+    "start": "npx serve -l 3000 .",
+    "build": "echo 'Static deployment ready'"
+  },
+  "keywords": [
+    "thalir",
+    "special-children",
+    "healthcare",
+    "edtech",
+    "care-passport",
+    "progress-passport",
+    "assistive-communication",
+    "aac"
+  ],
+  "author": "THALIR Team",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
